@@ -29,6 +29,7 @@ const Header = () => {
         <Link href="/about">About</Link>
         {!isLoggedIn ? (
           <>
+            <Link href="/upload">Upload</Link>
             <Link href="/login">Login</Link>
             <Link href="/register">Register</Link>
           </>
