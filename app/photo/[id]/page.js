@@ -1,40 +1,36 @@
 import Link from "next/link";
 
-async function fetchData(id) {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/photos/${id}`);
-  const result = await res.json();
-  return result;
-}
-
-export async function generateStaticParams() {
-  const res = await fetch(
-    "https://jsonplaceholder.typicode.com/photos?_limit=12"
-  );
-  const photos = await res.json();
-  return photos.map((photo) => ({
-    id: photo.id.toString(),
-  }));
-}
-
-export async function generateMetadata({ params }) {
-  const photo = await fetchData(params.id);
+function getPhotoData(id) {
   return {
-    title: "Фото - " + photo.title,
-    description: "Фото з JSONPlaceholder",
+    id,
+    title: `Фото #${id}`,
+    author: `Автор #${id}`,
+    fullUrl: `https://picsum.photos/id/${id}/800/600`,
   };
 }
 
-const PagePhoto = async ({ params: { id } }) => {
-  const photo = await fetchData(id);
+export async function generateStaticParams() {
+  const ids = Array.from({ length: 12 }, (_, i) => ({ id: (i + 10).toString() }));
+  return ids;
+}
+
+export async function generateMetadata({ params }) {
+  const photo = getPhotoData(params.id);
+  return {
+    title: photo.title,
+    description: `Зображення від ${photo.author}`,
+  };
+}
+
+export default async function PagePhoto({ params: { id } }) {
+  const photo = getPhotoData(id);
 
   return (
-    <div>
-      <Link href="/">Повернутись на головну</Link>
+    <div className="photo">
+      <Link href="/">← Назад</Link>
       <h2>{photo.title}</h2>
-      <img src={photo.url} alt={photo.title} />
-      <p>Альбом ID: {photo.albumId}</p>
+      <p>Автор: {photo.author}</p>
+      <img src={photo.fullUrl} alt={photo.title} style={{ marginTop: "20px", maxWidth: "100%" }} />
     </div>
   );
 }
-
-export default PagePhoto

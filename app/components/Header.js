@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <header>
       <strong>Next-TEST</strong>
-       <nav style={{ display: "flex", gap: "10px" }}>
+      <nav style={{ display: "flex", gap: "10px" }}>
         <Link href="/">Home</Link>
         <Link href="/about">About</Link>
         {!isLoggedIn ? (
@@ -33,9 +33,12 @@ const Header = () => {
             <Link href="/register">Register</Link>
           </>
         ) : (
-          <button onClick={handleLogout} style={{ cursor: "pointer" }}>
-            Logout
-          </button>
+          <>
+            <Link href="/profile">Profile</Link>
+            <button onClick={handleLogout} style={{ cursor: "pointer" }}>
+              Logout
+            </button>
+          </>
         )}
       </nav>
     </header>
