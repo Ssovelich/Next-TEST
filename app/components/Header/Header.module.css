@@ -1,0 +1,10 @@
+.avatar {
+  width: 36;
+  height: 36;
+  borderradius: "50%";
+  backgroundcolor: "coral";
+  color: "#fff";
+  fontweight: "bold";
+  border: "none";
+  cursor: "pointer";
+}
