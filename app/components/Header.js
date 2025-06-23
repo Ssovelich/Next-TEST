@@ -24,11 +24,19 @@ const Header = () => {
   return (
     <header>
       <strong>Next-TEST</strong>
-      <nav>
+       <nav style={{ display: "flex", gap: "10px" }}>
         <Link href="/">Home</Link>
         <Link href="/about">About</Link>
-        <Link href="/login">Login</Link>
-        <Link href="/register">Register</Link>
+        {!isLoggedIn ? (
+          <>
+            <Link href="/login">Login</Link>
+            <Link href="/register">Register</Link>
+          </>
+        ) : (
+          <button onClick={handleLogout} style={{ cursor: "pointer" }}>
+            Logout
+          </button>
+        )}
       </nav>
     </header>
   );
