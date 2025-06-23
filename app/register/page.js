@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
   const router = useRouter();
@@ -19,7 +20,7 @@ const RegisterPage = () => {
     });
     const data = await res.json();
     if (data.token) {
-      localStorage.setItem("user", JSON.stringify({ email, password }));
+      localStorage.setItem("user", JSON.stringify({ email, name, password }));
       login(data.token);
       router.push("/profile");
     } else {
@@ -30,12 +31,9 @@ const RegisterPage = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Реєстрація</h2>
-      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <input
-        type="password"
-        placeholder="Пароль"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <input placeholder="Ім’я" value={name} onChange={(e) => setName(e.target.value)} required />
+      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <input type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} required />
       <button type="submit">Зареєструватися</button>
     </form>
   );
