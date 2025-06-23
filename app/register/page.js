@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
 
-const RegisterPage =() => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext);
@@ -19,8 +19,9 @@ const RegisterPage =() => {
     });
     const data = await res.json();
     if (data.token) {
-      login(data.token); // ✅
-      router.push("/");
+      localStorage.setItem("user", JSON.stringify({ email, password }));
+      login(data.token);
+      router.push("/profile");
     } else {
       alert("Помилка реєстрації");
     }
@@ -30,10 +31,14 @@ const RegisterPage =() => {
     <form onSubmit={handleSubmit}>
       <h2>Реєстрація</h2>
       <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Пароль" onChange={(e) => setPassword(e.target.value)} />
+      <input
+        type="password"
+        placeholder="Пароль"
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <button type="submit">Зареєструватися</button>
     </form>
   );
-}
+};
 
 export default RegisterPage;
