@@ -18,7 +18,7 @@ a:hover {
 }
 
 .container {
-  width: 100%;
+  width: 375px;
   padding-left: 16px;
   padding-right: 16px;
   margin-left: auto;
@@ -28,7 +28,7 @@ a:hover {
 /* ==== TABLET (744px+) ==== */
 @media screen and (min-width: 744px) {
   .container {
-    max-width: 720px;
+    width: 744px;
     padding-left: 24px;
     padding-right: 24px;
   }
@@ -37,7 +37,7 @@ a:hover {
 /* ==== DESKTOP (1280px+) ==== */
 @media screen and (min-width: 1280px) {
   .container {
-    max-width: 1200px;
+    width: 1280px;
     padding-left: 32px;
     padding-right: 32px;
   }

@@ -49,12 +49,12 @@ const Home = () => {
         {isLoggedIn ? "Ласкаво просимо назад!" : "Головна сторінка"}
       </h1>
 
-      <div className={styles.grid}>
+      <div className={styles.wrapperPhotos}>
         {photos.map((photo) => (
           <div key={photo.id} className={styles.card}>
             <img src={photo.thumbnailUrl} alt={photo.title} />
-            <h2>{photo.title}</h2>
-            <p>{photo.author}</p>
+            <h2 className={styles.cardTitle}>{photo.title}</h2>
+            <p className={styles.author}>{photo.author}</p>
             <Link href={`/photo/${photo.id}`}>Переглянути деталі</Link>
             {isLoggedIn && (
               <button onClick={() => handleLike(photo.id)}>

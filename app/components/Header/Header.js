@@ -5,10 +5,13 @@ import Link from "next/link";
 import logo from "../../../public/logo.png"; // Adjust the path as necessary
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "./Header.module.css";
+import MobileMenu from "./MobileMenu";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userInitial, setUserInitial] = useState("");
   const router = useRouter();
 
@@ -30,64 +33,61 @@ const Header = () => {
   };
 
   return (
-    <header>
-      <div className="container">
-        {/* <Link href="/">
-          <img src={logo} alt="Logo" width={50} height={50} />
-        </Link> */}
-        <strong>Next-TEST</strong>
-        <nav style={{ display: "flex", gap: "10px" }}>
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          {isLoggedIn && <Link href="/upload">Upload</Link>}
-          {!isLoggedIn ? (
-            <>
-              <Link href="/login">Login</Link>
-              <Link href="/register">Register</Link>
-            </>
-          ) : (
-            <div style={{ position: "relative" }}>
+    <header className={styles.header}>
+      <div className={`container ${styles.headerContainer}`}>
+        <Link href="/" className={styles.logo}>
+          Next-TEST
+        </Link>
+
+        <div className={styles.rightSide}>
+          {/* Desktop navigation */}
+          <nav className={styles.navDesktop}>
+            <Link href="/">Home</Link>
+            <Link href="/about">About</Link>
+            {isLoggedIn && <Link href="/upload">Upload</Link>}
+            {!isLoggedIn ? (
+              <>
+                <Link href="/login">Login</Link>
+                <Link href="/register">Register</Link>
+              </>
+            ) : null}
+          </nav>
+
+          {/* User avatar — always shown if logged in */}
+          {isLoggedIn && (
+            <div className={styles.userMenu}>
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
-                  backgroundColor: "coral",
-                  color: "#fff",
-                  fontWeight: "bold",
-                  border: "none",
-                  cursor: "pointer",
-                }}
+                className={styles.userBtn}
               >
                 {userInitial}
               </button>
               {menuOpen && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 40,
-                    right: 0,
-                    backgroundColor: "#fff",
-                    color: "#000",
-                    borderRadius: 4,
-                    padding: "10px",
-                    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-                  }}
-                >
+                <div className={styles.dropdown}>
                   <Link href="/profile">Профіль</Link>
-                  <br />
-                  <button
-                    onClick={handleLogout}
-                    style={{ marginTop: 8, cursor: "pointer" }}
-                  >
-                    Вийти
-                  </button>
+                  <button onClick={handleLogout}>Вийти</button>
                 </div>
               )}
             </div>
           )}
-        </nav>
+
+          {/* Burger — only mobile */}
+          <button
+            className={`${styles.burger} ${mobileMenuOpen ? styles.open : ""}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
+        {mobileMenuOpen && (
+          <MobileMenu
+            isLoggedIn={isLoggedIn}
+            handleLogout={handleLogout}
+            onClose={() => setMobileMenuOpen(false)}
+          />
+        )}
       </div>
     </header>
   );

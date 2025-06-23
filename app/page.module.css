@@ -1,16 +1,20 @@
 .wrapper {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
   font-size: 28px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
-.grid {
+.wrapperPhotos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
+   width: 100%;
 }
 
 .card {
@@ -25,7 +29,20 @@
   width: 100%;
   height: auto;
   margin-bottom: 10px;
+  border-radius: 8px;
 }
+.cardTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #444;
+}
+.author {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
 .loadMore {
   margin-top: 30px;
   padding: 10px 20px;
@@ -38,4 +55,44 @@
 }
 .loadMore:hover {
   background-color: #ff8243;
+}
+
+/* ==== TABLET (744px+) ==== */
+@media screen and (min-width: 744px) {
+  .wrapperPhotos {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 24px;
+    row-gap: 20px;
+  }
+  .card {
+    padding: 16px;
+
+    .cardTitle {
+      font-size: 20px;
+    }
+
+    .author {
+      font-size: 15px;
+    }
+  }
+}
+
+/* ==== DESKTOP (1280px+) ==== */
+@media screen and (min-width: 1280px) {
+  .wrapperPhotos {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 32px;
+    row-gap: 24px;
+  }
+   .card {
+    padding: 20px;
+
+    .cardTitle {
+      font-size: 22px;
+    }
+
+    .author {
+      font-size: 16px;
+    }
+  }
 }
