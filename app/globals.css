@@ -17,10 +17,35 @@ a:hover {
   text-decoration: underline;
 }
 
+.container {
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ==== TABLET (744px+) ==== */
+@media screen and (min-width: 744px) {
+  .container {
+    max-width: 720px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* ==== DESKTOP (1280px+) ==== */
+@media screen and (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
 
 
 
-header {
+/* header {
     display: flex;
     justify-content: space-between;
     background-color: #444;
@@ -56,4 +81,4 @@ a:hover {
 }
 .photo a {
     color: #233c44;
-}
+} */

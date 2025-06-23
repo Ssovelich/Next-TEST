@@ -3,6 +3,7 @@
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
+import styles from "./page.module.css";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -30,11 +31,36 @@ const RegisterPage = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Реєстрація</h2>
-      <input placeholder="Ім’я" value={name} onChange={(e) => setName(e.target.value)} required />
-      <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input type="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      <button type="submit">Зареєструватися</button>
+      <div className="container">
+        <div className={styles.wrapper}>
+        <h2 className={styles.title}>Реєстрація</h2>
+        <input
+          className={styles.input}
+          placeholder="Ім’я"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          className={styles.input}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          className={styles.input}
+          type="password"
+          placeholder="Пароль"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button className={styles.button} type="submit">
+          Зареєструватися
+        </button>
+        </div>
+      </div>
     </form>
   );
 };

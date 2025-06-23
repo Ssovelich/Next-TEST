@@ -3,6 +3,7 @@
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
+import styles from "./page.module.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -28,12 +29,27 @@ const LoginPage = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Логін</h2>
-      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Пароль" onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit">Увійти</button>
+      <div className="container">
+        <div className={styles.wrapper}>
+          <h2 className={styles.title}>Логін</h2>
+          <input
+            className={styles.input}
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Пароль"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className={styles.button} type="submit">
+            Увійти
+          </button>
+        </div>
+      </div>
     </form>
   );
-}
+};
 
 export default LoginPage;

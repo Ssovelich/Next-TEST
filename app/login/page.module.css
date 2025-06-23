@@ -1,0 +1,72 @@
+.wrapper {
+  background: #444;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 40px auto;
+  margin-top: 60px;
+  width: 90%;
+  max-width: 100%;
+}
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #fff;
+  text-align: center;
+}
+.input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: coral;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.button:hover {
+  background-color: #ff82437d;
+}
+.button:active {
+  scale: 0.98;
+}
+
+/* ==== TABLET (744px+) ==== */
+@media screen and (min-width: 744px) {
+  .wrapper {
+    width: 500px;
+    padding: 32px;
+    margin-top: 100px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .input,
+  .button {
+    font-size: 17px;
+  }
+}
+
+/* ==== DESKTOP (1280px+) ==== */
+@media screen and (min-width: 1280px) {
+  .wrapper {
+    width: 600px;
+    padding: 40px;
+     margin-top: 160px;
+  }
+  .title {
+    font-size: 32px;
+  }
+  .input,
+  .button {
+    font-size: 18px;
+  }
+}
