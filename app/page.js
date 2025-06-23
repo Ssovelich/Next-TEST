@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -20,6 +20,7 @@ function generatePhotos() {
 const Home = () => {
   const [photos, setPhotos] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [start, setStart] = useState(10);
 
   useEffect(() => {
     setPhotos(generatePhotos());
@@ -27,10 +28,25 @@ const Home = () => {
     setIsLoggedIn(!!token);
   }, []);
 
+  const handleLike = (id) => {
+    setPhotos((prev) =>
+      prev.map((photo) =>
+        photo.id === id ? { ...photo, likes: photo.likes + 1 } : photo
+      )
+    );
+  };
+
+  const loadMore = () => {
+    const newStart = start + 12;
+    const newPhotos = generatePhotos(newStart);
+    setPhotos((prev) => [...prev, ...newPhotos]);
+    setStart(newStart);
+  };
+
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>
-        {isLoggedIn ? "Добре що Ви повернулись!" : "Головна сторінка"}
+        {isLoggedIn ? "Ласкаво просимо назад!" : "Головна сторінка"}
       </h1>
 
       <div className={styles.grid}>
@@ -40,11 +56,20 @@ const Home = () => {
             <h2>{photo.title}</h2>
             <p>{photo.author}</p>
             <Link href={`/photo/${photo.id}`}>Переглянути деталі</Link>
+            {isLoggedIn && (
+              <button onClick={() => handleLike(photo.id)}>
+                ❤️ Лайк ({photo.likes})
+              </button>
+            )}
           </div>
         ))}
       </div>
+
+      <button className={styles.loadMore} onClick={loadMore}>
+        Завантажити ще
+      </button>
     </div>
   );
-}
+};
 
 export default Home;
