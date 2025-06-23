@@ -27,7 +27,7 @@ a:hover {
 .container {
     padding: 50px;
 }
-.post {
+.photo {
     width: 500px;
     margin-top: 50px;  
     padding: 20px;
@@ -35,12 +35,12 @@ a:hover {
     background-color: #598191;
     color: #000; 
 }
-.post h2 {
+.photo h2 {
     margin-bottom: 20px;
 }
-.post p {
+.photo p {
     margin-bottom: 10px;
 }
-.post a {
+.photo a {
     color: #233c44;
 }

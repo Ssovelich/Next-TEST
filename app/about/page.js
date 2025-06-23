@@ -1,3 +1,7 @@
+export const metadata = {
+  title: "Сторінка про нас",
+  description: "Сторінка про нас в Next.js",
+};
 
 export default function About() {
   return (
