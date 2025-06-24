@@ -1,120 +1,41 @@
 .header {
- background-color: #444;
+  background-color: #444;
   border-bottom: 2px solid #555;
   padding: 16px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 99;
 }
+
 .headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .logo {
   font-weight: bold;
   font-size: 24px;
   color: #fff;
   text-decoration: none;
 }
+
 .rightSide {
   display: flex;
   align-items: center;
   gap: 12px;
 }
+
 .navDesktop {
   display: none;
 }
 
-/* BURGER */
-.burger {
-  width: 24px;
-  height: 18px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.burger span {
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  background: coral;
-  transition: all 0.3s ease;
-}
-
-/* Верхня лінія */
-.burger span:nth-child(1) {
-  top: 0;
-}
-
-/* Середня лінія */
-.burger span:nth-child(2) {
-  top: 8px;
-}
-
-/* Нижня лінія */
-.burger span:nth-child(3) {
-  bottom: 0;
-}
-
-.burger.open span:nth-child(1) {
-  transform: rotate(45deg);
-  top: 8px;
-}
-
-.burger.open span:nth-child(2) {
-  opacity: 0;
-}
-
-.burger.open span:nth-child(3) {
-  transform: rotate(-45deg);
-  bottom: 8px;
-}
-
-/* MOBILE MENU */
-.mobileMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: white;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-}
-.mobileMenu a,
-.mobileMenu button {
-  background: none;
-  border: none;
-  color: black;
-  text-align: left;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-/* ==== TABLET+ (744px) ==== */
 @media (min-width: 744px) {
   .navDesktop {
     display: flex;
     gap: 16px;
     align-items: center;
-  }
-
-  .burger {
-    display: none;
-  }
-
-  .mobileMenu {
-    display: none;
   }
 }
 
@@ -134,7 +55,6 @@
   cursor: pointer;
 }
 
-/* DROPDOWN */
 .dropdown {
   position: absolute;
   top: 40px;
@@ -157,3 +77,53 @@
   }
 }
 
+.burger {
+  width: 24px;
+  height: 18px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.burger span {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: coral;
+  transition: all 0.3s ease;
+}
+
+.burger span:nth-child(1) {
+  top: 0;
+}
+.burger span:nth-child(2) {
+  top: 8px;
+}
+.burger span:nth-child(3) {
+  bottom: 0;
+}
+
+.burger.open span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 8px;
+}
+
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.open span:nth-child(3) {
+  transform: rotate(-45deg);
+  bottom: 8px;
+}
+
+@media (min-width: 744px) {
+  .burger {
+    display: none;
+  }
+}

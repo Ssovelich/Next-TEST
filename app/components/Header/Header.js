@@ -6,7 +6,7 @@ import logo from "../../../public/logo.png"; // Adjust the path as necessary
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./Header.module.css";
-import MobileMenu from "./MobileMenu";
+import MobileMenu from "../MobileMenu/MobileMenu";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

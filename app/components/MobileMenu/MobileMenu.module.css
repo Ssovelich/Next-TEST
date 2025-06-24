@@ -1,0 +1,50 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  animation: fadeIn 0.3s ease forwards;
+}
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #777;
+  padding: 80px 28px 34px;
+  z-index: 999;
+  animation: slideIn 0.3s ease forwards;
+}
+.navMobile {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.navMobile a {
+  font-size: 20px;
+  text-decoration: none;
+  color: #fff;
+  background: none;
+  border: none;
+  /* padding: 8px 0; */
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.3s ease;
+}
+
+.navMobile a:hover,
+.navMobile button:hover {
+  color: coral;
+}
+
+/* Анімації */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
