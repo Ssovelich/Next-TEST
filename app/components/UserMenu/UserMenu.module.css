@@ -1,0 +1,48 @@
+/* ===== USER MENU / AVATAR ===== */
+.userMenu {
+  position: relative;
+}
+
+.userBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: coral;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 200px;
+  background: #777;
+  padding: 10px;
+  border: 2px solid coral;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  a,
+  button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    text-align: left;
+    cursor: pointer;
+  }
+  .btnLogout{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btnLogout:hover{
+    text-decoration: underline;
+  }
+}

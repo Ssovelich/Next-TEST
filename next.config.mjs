@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export'
+  reactStrictMode: true,
+  env: {
+    JWT_SECRET: process.env.JWT_SECRET,
+  },
 };
 
 export default nextConfig;

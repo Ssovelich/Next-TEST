@@ -1,36 +1,19 @@
 "use client";
 
 import Link from "next/link";
-// import Image from "next/image";
-import logo from "../../../public/logo.png"; // Adjust the path as necessary
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "../../context/AuthContext";
 import styles from "./Header.module.css";
 import MobileMenu from "../MobileMenu/MobileMenu";
 
+// import Image from "next/image";
+// import logo from "../../../public/logo.png";
+import UserMenu from "../UserMenu/UserMenu";
+
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userInitial, setUserInitial] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    if (token) {
-      setIsLoggedIn(true);
-      setUserInitial(user?.name?.[0]?.toUpperCase() || "U");
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    router.push("/");
-  };
 
   return (
     <header className={styles.header}>
@@ -42,34 +25,30 @@ const Header = () => {
         <div className={styles.rightSide}>
           {/* Desktop navigation */}
           <nav className={styles.navDesktop}>
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            {isLoggedIn && <Link href="/upload">Upload</Link>}
+            <Link href="/" className={styles.navLink}>
+              Home
+            </Link>
+            <Link href="/about" className={styles.navLink}>
+              About
+            </Link>
+            {isLoggedIn && (
+              <Link href="/upload" className={styles.navLink}>
+                Upload
+              </Link>
+            )}
             {!isLoggedIn ? (
               <>
-                <Link href="/login">Login</Link>
-                <Link href="/register">Register</Link>
+                <Link href="/login" className={styles.navLink}>
+                  Login
+                </Link>
+                <Link href="/register" className={styles.navLink}>
+                  Register
+                </Link>
               </>
             ) : null}
           </nav>
 
-          {/* User avatar — always shown if logged in */}
-          {isLoggedIn && (
-            <div className={styles.userMenu}>
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className={styles.userBtn}
-              >
-                {userInitial}
-              </button>
-              {menuOpen && (
-                <div className={styles.dropdown}>
-                  <Link href="/profile">Профіль</Link>
-                  <button onClick={handleLogout}>Вийти</button>
-                </div>
-              )}
-            </div>
-          )}
+          {isLoggedIn && <UserMenu />}
 
           {/* Burger — only mobile */}
           <button
@@ -81,10 +60,10 @@ const Header = () => {
             <span />
           </button>
         </div>
+
         {mobileMenuOpen && (
           <MobileMenu
             isLoggedIn={isLoggedIn}
-            handleLogout={handleLogout}
             onClose={() => setMobileMenuOpen(false)}
           />
         )}

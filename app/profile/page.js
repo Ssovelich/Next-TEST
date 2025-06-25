@@ -1,11 +1,26 @@
+export const dynamic = "force-dynamic";
+
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
-import { getUserFromToken } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
-  const userId = getUserFromToken();
-  if (!userId) {
+  // ✅ Правильний виклик cookies() — синхронно, одразу
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
+    redirect("/login");
+  }
+
+  let userId;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    userId = decoded.userId;
+  } catch (err) {
+    console.error("❌ Невалідний токен:", err);
     redirect("/login");
   }
 

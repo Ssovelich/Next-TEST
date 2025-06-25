@@ -1,67 +1,86 @@
 "use client";
 
-import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
 import styles from "./page.module.css";
+import Loader from "../components/Loader/Loader";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
   const router = useRouter();
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch("https://reqres.in/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await res.json();
-    if (data.token) {
-      localStorage.setItem("user", JSON.stringify({ email, name, password }));
-      login(data.token);
-      router.push("/profile");
-    } else {
-      alert("Помилка реєстрації");
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Помилка при реєстрації");
+        return;
+      }
+
+      toast.success("Реєстрація успішна!");
+      setTimeout(() => {
+        router.push("/login");
+      }, 1500);
+    } catch (err) {
+      toast.error("Сервер недоступний");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="container">
-        <div className={styles.wrapper}>
+    <div className="container">
+      <div className={styles.wrapper}>
         <h2 className={styles.title}>Реєстрація</h2>
-        <input
-          className={styles.input}
-          placeholder="Ім’я"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          className={styles.input}
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          className={styles.input}
-          type="password"
-          placeholder="Пароль"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button className={styles.button} type="submit">
-          Зареєструватися
-        </button>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <input
+            className={styles.input}
+            type="text"
+            name="name"
+            placeholder="Ім’я"
+            onChange={handleChange}
+            required
+          />
+          <input
+            className={styles.input}
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+          />
+          <input
+            className={styles.input}
+            type="password"
+            name="password"
+            placeholder="Пароль"
+            onChange={handleChange}
+            required
+          />
+          <button className={styles.button} type="submit">
+            {isSubmitting ? <Loader /> : "Зареєструватися"}
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 

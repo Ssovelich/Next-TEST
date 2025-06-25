@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "./MobileMenu.module.css";
 import { useEffect } from "react";
 
-const MobileMenu = ({ isLoggedIn, handleLogout, onClose }) => {
+const MobileMenu = ({ isLoggedIn, onClose }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -37,7 +37,7 @@ const MobileMenu = ({ isLoggedIn, handleLogout, onClose }) => {
               </Link>
             )}
 
-            {!isLoggedIn ? (
+            {!isLoggedIn && (
               <>
                 <Link href="/login" onClick={onClose}>
                   Login
@@ -45,20 +45,6 @@ const MobileMenu = ({ isLoggedIn, handleLogout, onClose }) => {
                 <Link href="/register" onClick={onClose}>
                   Register
                 </Link>
-              </>
-            ) : (
-              <>
-                <Link href="/profile" onClick={onClose}>
-                  Profile
-                </Link>
-                <button
-                  onClick={() => {
-                    handleLogout();
-                    onClose();
-                  }}
-                >
-                  Logout
-                </button>
               </>
             )}
           </nav>

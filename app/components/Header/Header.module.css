@@ -30,53 +30,6 @@
 .navDesktop {
   display: none;
 }
-
-@media (min-width: 744px) {
-  .navDesktop {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-  }
-}
-
-/* ===== USER MENU / AVATAR ===== */
-.userMenu {
-  position: relative;
-}
-
-.userBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: coral;
-  color: white;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background: white;
-  padding: 10px;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  a,
-  button {
-    background: none;
-    border: none;
-    color: black;
-    text-align: left;
-    cursor: pointer;
-  }
-}
-
 .burger {
   width: 24px;
   height: 18px;
@@ -125,5 +78,29 @@
 @media (min-width: 744px) {
   .burger {
     display: none;
+  }
+  .navDesktop {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .navLink {
+    font-size: 20px;
+    color: сoral;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .navLink:hover {
+    text-decoration: underline;
+  }
+}
+/* ==== DESKTOP (1280px+) ==== */
+@media screen and (min-width: 1280px) {
+  .navDesktop {
+    gap: 22px;
+  }
+  .navLink {
+    font-size: 22px;
   }
 }
