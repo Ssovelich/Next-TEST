@@ -1,34 +1,48 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import jwt from "jsonwebtoken";
-import { connectDB } from "@/lib/mongodb";
-import User from "@/models/User";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "../context/AuthContext";
+import styles from "./page.module.css";
+import Loader from "../components/Loader/Loader"; 
 
-export default async function ProfilePage() {
+const ProfilePage = () => {
+  const { isLoggedIn, isLoading, user } = useContext(AuthContext);
+  const router = useRouter();
+  const [publishedCount, setPublishedCount] = useState(0);
+  const [likedCount, setLikedCount] = useState(0);
 
-  const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+  useEffect(() => {
+    if (isLoading) return;
 
-  if (!token) redirect("/login");
+    if (!isLoggedIn) {
+      router.push("/login");
+      return;
+    }
 
-  let payload;
-  try {
-    payload = jwt.verify(token, process.env.JWT_SECRET);
-  } catch {
-    redirect("/login");
-  }
+    const allPhotos = JSON.parse(localStorage.getItem("myPhotos") || "[]");
 
-  await connectDB();
-  const user = await User.findById(payload.userId).lean();
-  if (!user) redirect("/login");
+    const authoredPhotos = allPhotos.filter(
+      (photo) => photo.author === user?.name
+    );
+    setPublishedCount(authoredPhotos.length);
+
+    const likedPhotos = JSON.parse(localStorage.getItem("likedPhotos") || "[]");
+    setLikedCount(likedPhotos.length);
+  }, [isLoggedIn, isLoading, user, router]);
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className="container">
-      <h1>Profile</h1>
-      <p><strong>Name:</strong> {user.name}</p>
-      <p><strong>Email:</strong> {user.email}</p>
+      <h1 className={styles.title}>Profile</h1>
+      <p><strong>Name:</strong> {user?.name}</p>
+      <p><strong>Email:</strong> {user?.email}</p>
+      <hr />
+      <p><strong>Published photos:</strong> {publishedCount}</p>
+      <p><strong>Liked photos:</strong> {likedCount}</p>
     </div>
   );
-}
+};
+
+export default ProfilePage;

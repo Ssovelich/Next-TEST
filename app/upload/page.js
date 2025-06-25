@@ -80,7 +80,6 @@ const UploadPage = () => {
         type="text"
       />
 
-      {/* Drop zone + hidden file input */}
       <div
         ref={dropRef}
         onDragOver={onDragOver}
@@ -94,7 +93,6 @@ const UploadPage = () => {
           <p>Drag & drop an image here, or click to select</p>
         )}
 
-        {/* прихований інпут */}
         <input
           type="file"
           accept="image/*"

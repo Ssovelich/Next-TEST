@@ -40,17 +40,15 @@ const UserMenu = () => {
     };
   }, [menuOpen]);
 
-  useEffect(() => {
-    const handleRoute = () => setMenuOpen(false);
-    router.prefetch("/profile");
-    router.events?.on("routeChangeStart", handleRoute);
-    return () => router.events?.off("routeChangeStart", handleRoute);
-  }, [router]);
-
   const handleLogout = () => {
     logout();
     setMenuOpen(false);
     router.push("/");
+  };
+
+  const handleGoToProfile = () => {
+    setMenuOpen(false);
+    router.push("/profile");
   };
 
   return (
@@ -66,10 +64,10 @@ const UserMenu = () => {
       </button>
       {menuOpen && (
         <div ref={dropRef} className={styles.dropdown}>
-          <Link href="/profile" className={styles.navLink}>
+          <button onClick={handleGoToProfile} className={styles.btn}>
             Profile
-          </Link>
-          <button className={styles.btnLogout} onClick={handleLogout}>
+          </button>
+          <button className={styles.btn} onClick={handleLogout}>
             Logout
             <IoLogOutOutline />
           </button>
