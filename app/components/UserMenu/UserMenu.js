@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./UserMenu.module.css";
-import Link from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";

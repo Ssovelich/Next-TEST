@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./Header.module.css";
 import MobileMenu from "../MobileMenu/MobileMenu";
 
-// import Image from "next/image";
-// import logo from "../../../public/logo.png";
+import Image from "next/image";
+import logo from "../../../public/logo.png";
 import UserMenu from "../UserMenu/UserMenu";
 
 const Header = () => {
@@ -23,7 +23,7 @@ const Header = () => {
         </Link>
 
         <div className={styles.rightSide}>
-          {/* Desktop navigation */}
+          
           <nav className={styles.navDesktop}>
             <Link href="/" className={styles.navLink}>
               Home
@@ -50,7 +50,6 @@ const Header = () => {
 
           {isLoggedIn && <UserMenu />}
 
-          {/* Burger — only mobile */}
           <button
             className={`${styles.burger} ${mobileMenuOpen ? styles.open : ""}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
