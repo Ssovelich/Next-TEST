@@ -7,8 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 import styles from "./Header.module.css";
 import MobileMenu from "../MobileMenu/MobileMenu";
 
-import Image from "next/image";
-import logo from "../../../public/logo.png";
+import { BiArchiveIn } from "react-icons/bi";
 import UserMenu from "../UserMenu/UserMenu";
 
 const Header = () => {
@@ -19,7 +18,12 @@ const Header = () => {
     <header className={styles.header}>
       <div className={`container ${styles.headerContainer}`}>
         <Link href="/" className={styles.logo}>
-          Next-TEST
+          <img
+          src="/logo.svg"
+          alt="Логотип"
+          width={40}
+          height={40}
+        />
         </Link>
 
         <div className={styles.rightSide}>
