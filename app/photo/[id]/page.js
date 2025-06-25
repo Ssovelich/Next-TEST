@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   const photo = getPhotoData(params.id);
   return {
     title: photo.title,
-    description: `Зображення від ${photo.author}`,
+    description: `Image from ${photo.author}`,
   };
 }
 
@@ -27,9 +27,9 @@ export default async function PagePhoto({ params: { id } }) {
 
   return (
     <div className="photo">
-      <Link href="/">← Назад</Link>
+      <Link href="/">← Go Back</Link>
       <h2>{photo.title}</h2>
-      <p>Автор: {photo.author}</p>
+      <p>Author: {photo.author}</p>
       <img src={photo.fullUrl} alt={photo.title} style={{ marginTop: "20px", maxWidth: "100%" }} />
     </div>
   );

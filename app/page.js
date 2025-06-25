@@ -6,19 +6,19 @@ import styles from "./page.module.css";
 import Loader from "./components/Loader/Loader";
 import toast from "react-hot-toast";
 import { MdDeleteForever } from "react-icons/md";
-import { IoIosHeartEmpty } from "react-icons/io";
-import { IoIosHeart } from "react-icons/io";
-import PLACEHOLDER from "../public/placeholder.webp";
+import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
+
+const PLACEHOLDER = "/placeholder.jpg";
 
 function generatePhotos(start = 10, count = 9) {
   return Array.from({ length: count }, (_, i) => {
     const id = start + i;
     return {
-      id,
-      title: `Фото #${id}`,
+      id: String(id),
+      title: `Photo #${id}`,
       thumbnailUrl: `https://picsum.photos/id/${id}/300/200`,
       fullUrl: `https://picsum.photos/id/${id}/800/600`,
-      author: `Автор #${id}`,
+      author: `Author #${id}`,
       liked: false,
     };
   });
@@ -29,36 +29,48 @@ const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [start, setStart] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
-  const [loadedImages, setLoadedImages] = useState({});
-  const [likedIds, setLikedIds] = useState(() =>
-    JSON.parse(localStorage.getItem("likedPhotos") || "[]")
-  );
+  const [loadedImages, setLoaded] = useState({});
+  const [likedIds, setLikedIds] = useState([]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = window.localStorage.getItem("token");
+    const storedLikes = JSON.parse(
+      window.localStorage.getItem("likedPhotos") || "[]"
+    );
+    const uploaded = JSON.parse(
+      window.localStorage.getItem("myPhotos") || "[]"
+    );
+
     setIsLoggedIn(!!token);
-    loadInitialPhotos();
+    setLikedIds(storedLikes);
+
+    const demo = generatePhotos(start, 9).map((p) => ({
+      ...p,
+      liked: storedLikes.includes(String(p.id)),
+    }));
+
+    const merged = [
+      ...uploaded.map((p) => ({
+        ...p,
+        liked:
+          typeof p.liked === "boolean"
+            ? p.liked
+            : storedLikes.includes(String(p.id)),
+      })),
+      ...demo,
+    ];
+
+    setPhotos(merged);
+    setStart(start + 9);
   }, []);
 
-  const loadInitialPhotos = async () => {
-    setIsLoading(true);
-    const uploaded = JSON.parse(localStorage.getItem("myPhotos") || "[]");
-    const newPhotos = generatePhotos(start, 9);
-    await new Promise((res) => setTimeout(res, 1000));
-    const all = [...uploaded, ...newPhotos].map((p) => ({
-      ...p,
-      liked: p.liked || likedIds.includes(String(p.id)),
-    }));
-    setPhotos(all);
-    setStart(start + 9);
-    setIsLoading(false);
+  const handleImageLoad = (id) => {
+    setLoaded((prev) => ({ ...prev, [id]: true }));
   };
 
-  const handleToggleLike = (id) => {
+  const toggleLike = (id) => {
     setPhotos((prev) =>
-      prev.map((photo) =>
-        photo.id === id ? { ...photo, liked: !photo.liked } : photo
-      )
+      prev.map((p) => (p.id === id ? { ...p, liked: !p.liked } : p))
     );
 
     setLikedIds((prev) => {
@@ -66,35 +78,36 @@ const Home = () => {
       const next = prev.includes(strId)
         ? prev.filter((x) => x !== strId)
         : [...prev, strId];
-      localStorage.setItem("likedPhotos", JSON.stringify(next));
+      window.localStorage.setItem("likedPhotos", JSON.stringify(next));
       return next;
     });
 
-    const my = JSON.parse(localStorage.getItem("myPhotos") || "[]");
-    const updated = my.map((p) =>
-      p.id === id ? { ...p, liked: !p.liked } : p
-    );
-    localStorage.setItem("myPhotos", JSON.stringify(updated));
-  };
-
-  const handleImageLoad = (id) => {
-    setLoadedImages((prev) => ({ ...prev, [id]: true }));
+    const mine = JSON.parse(
+      window.localStorage.getItem("myPhotos") || "[]"
+    ).map((p) => (p.id === id ? { ...p, liked: !p.liked } : p));
+    window.localStorage.setItem("myPhotos", JSON.stringify(mine));
   };
 
   const handleDelete = (id) => {
     setPhotos((prev) => prev.filter((p) => p.id !== id));
 
-    const my = JSON.parse(localStorage.getItem("myPhotos") || "[]");
-    const updated = my.filter((p) => p.id !== id);
-    localStorage.setItem("myPhotos", JSON.stringify(updated));
+    const mine = JSON.parse(window.localStorage.getItem("myPhotos") || "[]");
+    window.localStorage.setItem(
+      "myPhotos",
+      JSON.stringify(mine.filter((p) => p.id !== id))
+    );
+
     toast.success("Photo deleted");
   };
 
   const loadMore = async () => {
     setIsLoading(true);
-    const newPhotos = generatePhotos(start, 9);
-    await new Promise((res) => setTimeout(res, 1000));
-    setPhotos((prev) => [...prev, ...newPhotos]);
+    const more = generatePhotos(start, 9).map((p) => ({
+      ...p,
+      liked: likedIds.includes(String(p.id)),
+    }));
+    await new Promise((r) => setTimeout(r, 800));
+    setPhotos((prev) => [...prev, ...more]);
     setStart(start + 9);
     setIsLoading(false);
   };
@@ -102,7 +115,7 @@ const Home = () => {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>
-        {isLoggedIn ? "Ласкаво просимо назад!" : "Головна сторінка"}
+        {isLoggedIn ? "Welcome back!" : "Home page"}
       </h1>
 
       {isLoading && photos.length === 0 && <Loader />}
@@ -111,36 +124,39 @@ const Home = () => {
         {photos.map((photo) => (
           <div key={photo.id} className={styles.card}>
             {!loadedImages[photo.id] && <Loader />}
+
             <img
               src={photo.thumbnailUrl}
               alt={photo.title}
+              loading="lazy"
+              crossOrigin="anonymous"
               onLoad={() => handleImageLoad(photo.id)}
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = PLACEHOLDER;
                 handleImageLoad(photo.id);
               }}
-              loading="lazy"
             />
-            <h2 className={styles.cardTitle}>{photo.title}</h2>
-            <p className={styles.author}>Author:&nbsp;{photo.author}</p>
-            <Link href={`/photo/${photo.id}`}>Переглянути деталі</Link>
+
+            <button
+              className={styles.likeButton}
+              onClick={() => toggleLike(photo.id)}
+            >
+              {photo.liked ? <IoIosHeart /> : <IoIosHeartEmpty />}
+            </button>
+
             {isLoggedIn && (
               <button
-                onClick={() => handleToggleLike(photo.id)}
-                className={styles.likeButton}
-              >
-                {photo.liked ? <IoIosHeart /> : <IoIosHeartEmpty />}
-              </button>
-            )}
-            {isLoggedIn && (
-              <button
-                onClick={() => handleDelete(photo.id)}
                 className={styles.deleteButton}
+                onClick={() => handleDelete(photo.id)}
               >
-                <MdDeleteForever />
+                <MdDeleteForever size={20} />
               </button>
             )}
+
+            <h2 className={styles.cardTitle}>{photo.title}</h2>
+            <p className={styles.author}>Author: {photo.author}</p>
+            <Link href={`/photo/${photo.id}`}>View details</Link>
           </div>
         ))}
       </div>

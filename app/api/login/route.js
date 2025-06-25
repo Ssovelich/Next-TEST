@@ -25,12 +25,10 @@ export async function POST(req) {
       return NextResponse.json({ message: "Невірний пароль" }, { status: 401 });
     }
 
-    // ✅ Створення JWT токена
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
-    // ✅ Формуємо відповідь через new NextResponse()
     const response = new NextResponse(
       JSON.stringify({
         message: "Логін успішний",
@@ -38,7 +36,7 @@ export async function POST(req) {
           name: user.name,
           email: user.email,
         },
-        token, // ⬅️ лише якщо потрібно на клієнті, інакше видали
+        token, 
       }),
       {
         status: 200,
@@ -48,7 +46,6 @@ export async function POST(req) {
       }
     );
 
-    // ✅ Встановлюємо cookie
     response.cookies.set("token", token, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 7,
