@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { MdDeleteForever } from "react-icons/md";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
+import PLACEHOLDER from "../public/placeholder.webp";
 
 function generatePhotos(start = 10, count = 9) {
   return Array.from({ length: count }, (_, i) => {
@@ -114,8 +115,11 @@ const Home = () => {
               src={photo.thumbnailUrl}
               alt={photo.title}
               onLoad={() => handleImageLoad(photo.id)}
-              onError={() => handleImageLoad(photo.id)}
-              crossOrigin="anonymous"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = PLACEHOLDER;
+                handleImageLoad(photo.id);
+              }}
               loading="lazy"
             />
             <h2 className={styles.cardTitle}>{photo.title}</h2>
@@ -134,7 +138,7 @@ const Home = () => {
                 onClick={() => handleDelete(photo.id)}
                 className={styles.deleteButton}
               >
-                <MdDeleteForever  />
+                <MdDeleteForever />
               </button>
             )}
           </div>
