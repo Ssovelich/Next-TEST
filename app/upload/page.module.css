@@ -62,7 +62,7 @@
 /* ==== TABLET (744px+) ==== */
 @media screen and (min-width: 744px) {
   .form {
-    padding-top: 80px;
+    padding-top: 50px;
   }
   .dropZone {
     max-width: 600px;
@@ -78,7 +78,7 @@
 /* ==== DESKTOP (1280px+) ==== */
 @media screen and (min-width: 1280px) {
   .form {
-    padding-top: 120px;
+    padding-top: 60px;
   }
   .dropZone {
     max-width: 800px;

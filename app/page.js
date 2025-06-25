@@ -134,7 +134,7 @@ const Home = () => {
                 onClick={() => handleDelete(photo.id)}
                 className={styles.deleteButton}
               >
-                <MdDeleteForever size={"20px"} />
+                <MdDeleteForever  />
               </button>
             )}
           </div>

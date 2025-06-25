@@ -43,8 +43,27 @@
   color: coral;
   transition: transform 0.15s ease;
 }
-
 .likeButton:hover {
+  transform: scale(1.1);
+}
+.deleteButton{
+   position: absolute;
+  top: 18px;
+  right: 21px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  color: #444;
+  transition: transform 0.15s ease;
+}
+.deleteButton:hover {
   transform: scale(1.1);
 }
 
@@ -94,6 +113,10 @@
     top: 22px;
     left: 22px;
   }
+  .deleteButton {
+    top: 22px;
+    right: 22px;
+  }
   .cardTitle {
     font-size: 20px;
   }
@@ -115,6 +138,10 @@
   .likeButton {
     top: 25px;
     left: 25px;
+  }
+  .deleteButton {
+    top: 25px;
+    right: 25px;
   }
   .cardTitle {
     font-size: 22px;
