@@ -14,15 +14,38 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
-   width: 100%;
+  width: 100%;
 }
 
 .card {
+  position: relative;
   border: 1px solid #ccc;
   padding: 12px;
   border-radius: 8px;
   background: #f9f9f9;
   text-align: center;
+}
+
+.likeButton {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  color: coral;
+  transition: transform 0.15s ease;
+}
+
+.likeButton:hover {
+  transform: scale(1.1);
 }
 
 .card img {
@@ -66,14 +89,16 @@
   }
   .card {
     padding: 16px;
-
-    .cardTitle {
-      font-size: 20px;
-    }
-
-    .author {
-      font-size: 15px;
-    }
+  }
+  .likeButton {
+    top: 22px;
+    left: 22px;
+  }
+  .cardTitle {
+    font-size: 20px;
+  }
+  .author {
+    font-size: 15px;
   }
 }
 
@@ -84,15 +109,17 @@
     column-gap: 32px;
     row-gap: 24px;
   }
-   .card {
+  .card {
     padding: 20px;
-
-    .cardTitle {
-      font-size: 22px;
-    }
-
-    .author {
-      font-size: 16px;
-    }
+  }
+  .likeButton {
+    top: 25px;
+    left: 25px;
+  }
+  .cardTitle {
+    font-size: 22px;
+  }
+  .author {
+    font-size: 16px;
   }
 }

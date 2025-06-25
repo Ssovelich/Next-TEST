@@ -29,6 +29,9 @@ const Home = () => {
   const [start, setStart] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const [loadedImages, setLoadedImages] = useState({});
+  const [likedIds, setLikedIds] = useState(() =>
+    JSON.parse(localStorage.getItem("likedPhotos") || "[]")
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,7 +44,11 @@ const Home = () => {
     const uploaded = JSON.parse(localStorage.getItem("myPhotos") || "[]");
     const newPhotos = generatePhotos(start, 9);
     await new Promise((res) => setTimeout(res, 1000));
-    setPhotos([...uploaded, ...newPhotos]);
+    const all = [...uploaded, ...newPhotos].map((p) => ({
+      ...p,
+      liked: p.liked || likedIds.includes(String(p.id)),
+    }));
+    setPhotos(all);
     setStart(start + 9);
     setIsLoading(false);
   };
@@ -52,6 +59,15 @@ const Home = () => {
         photo.id === id ? { ...photo, liked: !photo.liked } : photo
       )
     );
+
+    setLikedIds((prev) => {
+      const strId = String(id);
+      const next = prev.includes(strId)
+        ? prev.filter((x) => x !== strId)
+        : [...prev, strId];
+      localStorage.setItem("likedPhotos", JSON.stringify(next));
+      return next;
+    });
 
     const my = JSON.parse(localStorage.getItem("myPhotos") || "[]");
     const updated = my.map((p) =>
