@@ -99,7 +99,6 @@ const Home = () => {
               alt={photo.title}
               onLoad={() => handleImageLoad(photo.id)}
               onError={() => handleImageLoad(photo.id)}
-              // style={loadedImages[photo.id] ? {} : { display: "none" }}
               crossOrigin="anonymous"
               loading="lazy"
             />
@@ -107,8 +106,11 @@ const Home = () => {
             <p className={styles.author}>Author:&nbsp;{photo.author}</p>
             <Link href={`/photo/${photo.id}`}>Переглянути деталі</Link>
             {isLoggedIn && (
-              <button onClick={() => handleLike(photo.id)}>
-                <IoIosHeartEmpty /> ({photo.likes})
+              <button
+                onClick={() => handleToggleLike(photo.id)}
+                className={styles.likeButton}
+              >
+                {photo.liked ? <IoIosHeart /> : <IoIosHeartEmpty />}
               </button>
             )}
             {isLoggedIn && (
