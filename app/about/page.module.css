@@ -1,0 +1,51 @@
+.wrap {
+  padding: 24px 0;
+}
+.titlePage {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ==== TABLET (744px+) ==== */
+@media screen and (min-width: 744px) {
+  .wrap {
+    padding: 50px 0;
+  }
+  .titlePage {
+    font-size: 32px;
+  }
+  .title {
+  font-size: 22px;
+}
+  .list {
+  gap: 16px;
+  font-size: 18px;
+}
+}
+
+/* ==== DESKTOP (1280px+) ==== */
+@media screen and (min-width: 1280px) {
+  .wrap {
+    padding: 60px 0;
+  }
+  .titlePage {
+    font-size: 36px;
+  }
+   .title {
+  font-size: 26px;
+}
+  .list {
+  gap: 18px;
+  font-size: 22px;
+}
+}

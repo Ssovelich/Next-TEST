@@ -38,7 +38,7 @@ const RegisterPage = () => {
       toast.success("Реєстрація успішна!");
       setTimeout(() => {
         router.push("/login");
-      }, 1500);
+      }, 500);
     } catch (err) {
       toast.error("Сервер недоступний");
     } finally {

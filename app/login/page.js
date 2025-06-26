@@ -44,7 +44,7 @@ export default function LoginPage() {
       toast.success("Вхід виконано успішно!");
       setTimeout(() => {
         router.push("/");
-      }, 1500);
+      }, 500);
     } catch (err) {
       toast.error("Сервер недоступний");
     } finally {
