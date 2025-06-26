@@ -19,7 +19,7 @@ const Home = () => {
   const [likedIds, setLikedIds] = useState([]);
 
   useEffect(() => {
-    const storedLikes = JSON.parse(localStorage.getItem(`likedPhotos_${user?.email}`) || "[]");
+    const storedLikes = JSON.parse(localStorage.getItem("likedPhotos") || "[]");
     const uploaded = JSON.parse(localStorage.getItem("myPhotos") || "[]");
 
     setLikedIds(storedLikes);
@@ -68,40 +68,34 @@ const Home = () => {
     setLoaded((prev) => ({ ...prev, [id]: true }));
 
   const toggleLike = (id) => {
-  if (!isLoggedIn || !user?.email) {
-    toast.error("Спочатку увійдіть у систему");
-    return;
-  }
+    if (!isLoggedIn) {
+      toast.error("First, log in.");
+      return;
+    }
 
-  setPhotos((prev) =>
-    prev.map((p) => (p.id === id ? { ...p, liked: !p.liked } : p))
-  );
+    setPhotos((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, liked: !p.liked } : p))
+    );
 
-  // Отримуємо старі лайки
-  const storageKey = `likedPhotos_${user.email}`;
-  const prevLikes = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    setLikedIds((prev) => {
+      const next = prev.includes(id)
+        ? prev.filter((x) => x !== id)
+        : [...prev, id];
+      localStorage.setItem("likedPhotos", JSON.stringify(next));
+      return next;
+    });
 
-  // Додаємо або прибираємо лайк
-  const nextLikes = prevLikes.includes(id)
-    ? prevLikes.filter((x) => x !== id)
-    : [...prevLikes, id];
-
-  localStorage.setItem(storageKey, JSON.stringify(nextLikes));
-  setLikedIds(nextLikes);
-
-  // Також оновлюємо статус лайка в своїх фото
-  const mine = JSON.parse(localStorage.getItem("myPhotos") || "[]").map((p) =>
-    p.id === id ? { ...p, liked: !p.liked } : p
-  );
-  localStorage.setItem("myPhotos", JSON.stringify(mine));
-};
-
+    const mine = JSON.parse(localStorage.getItem("myPhotos") || "[]").map((p) =>
+      p.id === id ? { ...p, liked: !p.liked } : p
+    );
+    localStorage.setItem("myPhotos", JSON.stringify(mine));
+  };
 
   const handleDelete = (id) => {
     const photo = photos.find((p) => p.id === id);
 
     if (!isLoggedIn || !photo?.isMine) {
-      toast.error("Deletion is only allowed for your own photos");
+      toast.error("Видалення дозволено лише для власних фото");
       return;
     }
 
@@ -112,7 +106,7 @@ const Home = () => {
     );
     localStorage.setItem("myPhotos", JSON.stringify(mine));
 
-    toast.success("Photo deleted");
+    toast.success("Фото видалено");
   };
 
   const loadMore = async () => {
