@@ -4,7 +4,8 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "../context/AuthContext";
 import styles from "./page.module.css";
-import Loader from "../components/Loader/Loader"; 
+import Loader from "../components/Loader/Loader";
+import Link from "next/link";
 
 const ProfilePage = () => {
   const { isLoggedIn, isLoading, user } = useContext(AuthContext);
@@ -21,13 +22,12 @@ const ProfilePage = () => {
     }
 
     const allPhotos = JSON.parse(localStorage.getItem("myPhotos") || "[]");
-
     const authoredPhotos = allPhotos.filter(
       (photo) => photo.author === user?.name
     );
     setPublishedCount(authoredPhotos.length);
 
-    const likedPhotos = JSON.parse(localStorage.getItem("likedPhotos") || "[]");
+    const likedPhotos = JSON.parse(localStorage.getItem(`likedPhotos_${user?.email}`) || "[]");
     setLikedCount(likedPhotos.length);
   }, [isLoggedIn, isLoading, user, router]);
 
@@ -39,8 +39,14 @@ const ProfilePage = () => {
       <p><strong>Name:</strong> {user?.name}</p>
       <p><strong>Email:</strong> {user?.email}</p>
       <hr />
-      <p><strong>Published photos:</strong> {publishedCount}</p>
-      <p><strong>Liked photos:</strong> {likedCount}</p>
+      <p>
+        <strong>Published photos:</strong>{" "}
+        <Link href="/profile/published">{publishedCount}</Link>
+      </p>
+      <p>
+        <strong>Liked photos:</strong>{" "}
+        <Link href="/profile/liked">{likedCount}</Link>
+      </p>
     </div>
   );
 };

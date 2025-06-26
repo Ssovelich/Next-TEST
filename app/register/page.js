@@ -31,16 +31,16 @@ const RegisterPage = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message || "Помилка при реєстрації");
+        toast.error(data.message || "Error during registration");
         return;
       }
 
-      toast.success("Реєстрація успішна!");
+      toast.success("Registration successful!");
       setTimeout(() => {
         router.push("/login");
       }, 500);
     } catch (err) {
-      toast.error("Сервер недоступний");
+      toast.error("Server unavailable");
     } finally {
       setIsSubmitting(false);
     }
@@ -76,7 +76,7 @@ const RegisterPage = () => {
             required
           />
           <button className={styles.button} type="submit">
-            {isSubmitting ? <Loader /> : "Зареєструватися"}
+            {isSubmitting ? <Loader /> : "Register"}
           </button>
         </form>
       </div>

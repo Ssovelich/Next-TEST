@@ -34,19 +34,19 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data.message || "Помилка входу");
+        toast.error(data.message || "Login error");
         return;
       }
 
       // ✅ Зберігаємо в контекст
       login(null, data.user)
 
-      toast.success("Вхід виконано успішно!");
+      toast.success("Login successful!");
       setTimeout(() => {
         router.push("/");
       }, 500);
     } catch (err) {
-      toast.error("Сервер недоступний");
+      toast.error("Server unavailable");
     } finally {
       setIsSubmitting(false);
     }
